@@ -12,6 +12,7 @@ Create Database 데이터베이스이름 Authorization 소유자이름;
 - 생성
 
     ```sql
+    
     Create Domain 도메인이름 데이터타입
         [기본값정의]
         [도메인제약조건리스트];

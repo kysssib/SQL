@@ -1,11 +1,13 @@
 # SQL
 - 주의사항
-1. 대소문 구분 X
+1. 대소문 구분 X 단, Value라면 구분해야함
 2. 엔터 구분 X 명령어 구분은 오로지 ;
 3. [] : 생략 가능
 4. <sup>+</sup> : 1개 이상 존재
 5. <sup>*</sup> : 0개 이상 존재
 6. {} : 단위 문장으로 묶음
+
+---
 
 ## 데이터베이스
 - 생성
@@ -13,12 +15,16 @@
     ```sql
     Create Database 데이터베이스이름 Authorization 소유자이름;
     ```
+    [예시](#데이터베이스-생성-예시)
 - 제거
     ```sql
     DROP Database 데이터베이스이름 {삭제조건};
     ```
-    <a herf="#deletecondition">삭제조건</a>
-    
+    - [삭제조건](#삭제조건)
+
+    [예시](#데이터베이스-삭제-예시)
+
+---
 
 ## 도메인
 
@@ -27,10 +33,128 @@
     ```sql
     Create Domain 도메인이름 데이터타입
         [기본값정의]
-        [도메인제약조건리스트];
+        [Constraint 제약조건이름(제약조건)];
     ```
 
-    <details><summary>데이터 타입</summary>
+    - [데이터타입](#데이터타입)
+    - [기본값정의](#기본값정의)
+    - [제약조건](#제약조건)
+
+- 변경
+
+    ```sql
+    Alter Domain 도메인이름 <변경내용>;
+    ```
+
+- 삭제
+
+    ```sql
+    Drop Domain 도메인이름 [삭제조건];
+    ```
+    - [삭제조건](#삭제조건)
+    
+---
+
+## 테이블
+
+- 생성
+
+    ```sql
+    Create Table 테이블이름
+        ({애트리뷰트이름 데이터타입 [Not NULL][기본값정의]}⁺
+        [Primary Key (애트리뷰트이름들),]
+        {[Union (애트리뷰트이름들),]}*
+        {[Foreign Key (애트리뷰트이름들)
+            References 테이블이름[(애트리뷰트이름들)]
+            [On Delete 옵션]
+            [On Update 옵션],]}*
+        [Constraint 제약이름][제약조건]);
+    ```
+    - [기본값정의](#기본값정의)
+    - [데이터타입](#데이터타입)
+    - [제약조건](#제약조건)
+
+    [예시](#테이블-생성-예시)
+
+- 변경
+    ```sql
+    Alter Table 테이블이름
+        ([Add 추가할애트리뷰트이름 데이터타입][기본값정의]|[Drop 삭제할애트리뷰트이름][삭제조건]|[Alter 변경할애트리뷰트이름 (Drop Default | Set Default 기본값정의)]);
+    ```
+    - [데이터타입](#데이터타입)
+    - [삭제조건](#삭제조건)
+    - [기본값정의](#기본값정의)
+    [예시](#테이블-변경-예시)
+
+    
+
+---
+참조
+---
+#### 데이터베이스 생성 예시
+```sql
+Create Database University Authorization SHLEE;
+``` 
+또는
+```sql
+Create Schema University Authorization SHLEE;
+``` 
+[데이터베이스](#데이터베이스)
+
+---
+#### 데이터베이스 삭제 예시
+```sql
+Drop Database University Restrict;
+``` 
+또는
+```sql
+Drop Database University Cascade;
+``` 
+[데이터베이스](#데이터베이스)
+
+---
+
+#### 기본값정의
+```sql
+Default '???'
+```
+
+- 값을 입력하지 않으면 '???'가 들어감
+
+[도메인](#도메인)
+
+[테이블](#테이블)
+
+---
+
+#### 제약조건
+    
+    ```sql
+    Check(Value In ('값1','값2'...))
+    ```
+
+    -  ('값1','값2'...) 안에 Value가 안에 있는가 확인
+[도메인](#도메인)
+
+[테이블](#테이블)
+
+---
+
+#### 삭제조건
+
+    Restrict
+    
+    - 다른 곳에서 이 도메인 참조 안할 때 삭제
+
+    Cascade
+
+    - 강제 삭제
+
+[데이터베이스](#데이터베이스)
+
+---
+
+#### 데이터타입
 
     - 숫자
         - Int, Integer, Samllint : 정수
@@ -47,64 +171,54 @@
         - Time : hh:mm:ss
         - Timestamp : Date, Time포함
         - Interval : Date, Time, Timestamp 포함
-    </details>
+[도메인](#도메인)
 
-    <details><summary>기본값정의</summary>
-    
-    ```sql
-    Default '???'
-    ```
+[테이블](#테이블)
 
-    - 값을 입력하지 않으면 '???'가 들어감
-    </details>
-    
-    <details><summary>도메인제약조건</summary>
-    ```sql
-    Check(Value In ('값1','값2'...))
-    ```
+---
 
-    -  ('값1','값2'...) 안에 Value가 안에 있는가 확인
-    </details>
+#### 테이블 생성 예시
+```sql
+Create Table ENROL
+    (Sno Integer Not Null,
+    Cno Char(6) Not Null,
+    Grade Int,
+    Primary Key(Sno, Cno),
+    Foreign key(Sno) References STUDENT(sno)
+        on Delete Cascade
+        on Update Cascade,
+    Foreign Key(Cno) References COURSE
+            on Delete Cascade
+            on Update Cascade,
+    Check(Grade >= 0 And Grade <= 100));
+```
+<details><summary>설명</summary>
 
-- 변경
+> Sno는 Int형이며 Null이 불가
 
-    ```sql
-    Alter Domain 도메인이름 <변경내용>;
-    ```
+> Cno는 Int형이며 Null이 불가
 
-- 삭제
+> Grade는 Int형
 
-    ```sql
-    Drop Domain 도메인이름 [삭제조건];
-    ```
-    
+> Primary Key는 Sno와 Cno의 조합
 
+> Foreign Key인 Sno는 Student 테이블의 sno에서 왔으며 참조 테이블이 삭제/변형되면 같이 삭제/변형
 
-## 테이블
+> Foreign Key인 Cno는 Course 테이블에서 왔으며 참조 테이블이 삭제/변형되면 같이 삭제/변형 (애트리뷰트 이름이 대소문 구분 없이 동일하므로 생략)
 
-- 생성
+> 이 테이블의 조건은 Grade값은 0보다 크고 100보다 작아야 한다
+</details>
 
-    ```sql
-    Create Table 테이블이름
-        ({애트리뷰트이름 데이터타입 [Not NULL][기본값]}⁺
-        [Primary Key (애트리뷰트이름들),]
-        {[Union (애트리뷰트이름들),]}*
-        {[Foreign Key (애트리뷰트이름들)
-            References 테이블이름[(애트리뷰트이름들)]
-            [On Delete 옵션]
-            [On Update 옵션],]}*
-        [Constraint 제약이름][Check(조건식)]);
-    ```
+[테이블](#테이블)
 
+---
+#### 테이블 변경 예시
+```sql
+Alter Table Enrol
+    Add Final Char Default 'F';
 
-<p id='deletecondition'><details>
-    <summary>삭제조건</summary>
+Alter Table Enrol
+    Drop Grade Cascade;
+```
 
-    Restrict
-    
-    - 다른 곳에서 이 도메인 참조 안할 때 삭제
-
-    Cascade
-
-    - 강제 삭제
-</details></p>
+[테이블](#테이블)

@@ -1,18 +1,31 @@
 # SQL
+- 주의사항
 1. 대소문 구분 X
+2. 엔터 구분 X 명령어 구분은 오로지 ;
+3. [] : 생략 가능
+4. <sup>+</sup> : 1개 이상 존재
+5. <sup>*</sup> : 0개 이상 존재
+6. {} : 단위 문장으로 묶음
 
-## 데이터베이스 생성
+## 데이터베이스
+- 생성
 
-```sql
-Create Database 데이터베이스이름 Authorization 소유자이름;
-```
+    ```sql
+    Create Database 데이터베이스이름 Authorization 소유자이름;
+    ```
+- 제거
+    ```sql
+    DROP Database 데이터베이스이름 {삭제조건};
+    ```
+    <a herf="#deletecondition">삭제조건</a>
+    
 
 ## 도메인
 
 - 생성
 
     ```sql
-    create domain 도메인이름 데이터타입
+    Create Domain 도메인이름 데이터타입
         [기본값정의]
         [도메인제약조건리스트];
     ```
@@ -62,17 +75,9 @@ Create Database 데이터베이스이름 Authorization 소유자이름;
 - 삭제
 
     ```sql
-    Drop Domain 도메인이름 삭제조건;
+    Drop Domain 도메인이름 [삭제조건];
     ```
     
-    <details><summary>삭제조건</summary>
-    Restrict
-    
-    - 다른 곳에서 이 도메인 참조 안할 때 삭제
-
-    Cascade
-
-    - 강제 삭제
 
 
 ## 테이블
@@ -81,5 +86,25 @@ Create Database 데이터베이스이름 Authorization 소유자이름;
 
     ```sql
     Create Table 테이블이름
-        {애트리뷰트이름 데이터타입}
+        ({애트리뷰트이름 데이터타입 [Not NULL][기본값]}⁺
+        [Primary Key (애트리뷰트이름들),]
+        {[Union (애트리뷰트이름들),]}*
+        {[Foreign Key (애트리뷰트이름들)
+            References 테이블이름[(애트리뷰트이름들)]
+            [On Delete 옵션]
+            [On Update 옵션],]}*
+        [Constraint 제약이름][Check(조건식)]);
     ```
+
+
+<p id='deletecondition'><details>
+    <summary>삭제조건</summary>
+
+    Restrict
+    
+    - 다른 곳에서 이 도메인 참조 안할 때 삭제
+
+    Cascade
+
+    - 강제 삭제
+</details></p>

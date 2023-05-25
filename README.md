@@ -234,7 +234,7 @@ Alter Table Enrol
 ---
 #### 관계데이터베이스 예시
 - 학생 (STUDENT)
-    |<u>학번<br>(Sno)</u>|이름<br>(Sname)|학년<br>(Year)|학과<br>(Dept)|
+    |<U>학번<br>(Sno)</U>|이름<br>(Sname)|학년<br>(Year)|학과<br>(Dept)|
     |:---:|:---:|:---:|:---:|
     |100|나 수 영|4|컴퓨터|
     |200|이 찬 수|3|전기|
@@ -243,7 +243,7 @@ Alter Table Enrol
     |500|박 종 화|2|산공|
 
 - 과목 (COURSE)
-    |<u>과목번호<br>(Cno)</u>|과목이름<br>(Cname)|학점<br>(Credit)|학과<br>(Dept)|담당교수<br>(PRname)|
+    |<U>과목번호<br>(Cno)</U>|과목이름<br>(Cname)|학점<br>(Credit)|학과<br>(Dept)|담당교수<br>(PRname)|
     |:---:|:---:|:---:|:---:|:---:|
     |C123|프로그래밍|3|컴퓨터|김성국|
     |C312|자료구조|3|컴퓨터|황수관|
@@ -252,7 +252,7 @@ Alter Table Enrol
     |E412|반 도 체|3|전자|홍봉진|
     
 - 등록 (ENROL)
-    |<u>학번<br>(Sno)</u>|<u>과목번호<br>(Cno)</u>|성적<br>(Grade)|중간성적<br>(Midtrerm)|기말성적<br>(Final)|
+    |<U>학번<br>(Sno)</U>|<U>과목번호<br>(Cno)</U>|성적<br>(Grade)|중간성적<br>(Midtrerm)|기말성적<br>(Final)|
     |:---:|:---:|:---:|:---:|:---:|
     |100|C413|A|90|95|
     |100|E412|A|95|95|

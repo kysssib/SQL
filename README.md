@@ -37,13 +37,18 @@ Create Database 데이터베이스이름 Authorization 소유자이름;
     </details>
 
     <details><summary>기본값정의</summary>
-    Default '???'
     
+    ```sql
+    Default '???'
+    ```
+
     - 값을 입력하지 않으면 '???'가 들어감
     </details>
     
     <details><summary>도메인제약조건</summary>
+    ```sql
     Check(Value In ('값1','값2'...))
+    ```
 
     -  ('값1','값2'...) 안에 Value가 안에 있는가 확인
     </details>

@@ -10,7 +10,7 @@
 ---
 
 ## 데이터베이스
-- 생성
+- <span style="color:red">생성</span>
 
     ```sql
     Create Database 데이터베이스이름 Authorization 소유자이름;
